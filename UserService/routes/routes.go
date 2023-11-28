@@ -2,12 +2,13 @@ package routes
 
 import (
 	"user/handlers"
+	"user/middleware"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
-
-
 
 func Routes(api *handlers.Repository) *gin.Engine {
 	route := gin.Default()
@@ -19,8 +20,19 @@ func Routes(api *handlers.Repository) *gin.Engine {
 		ExposeHeaders:    []string{"Link"},
 		AllowCredentials: true,
 	}))
+	key := "Secret"
+	store := cookie.NewStore([]byte(key))
+	route.Use(sessions.Sessions("authsession", store))
+	route.Use(sessions.Sessions("mysession", store))
 	route.GET("/")
 	route.POST("/user/signup", api.SignUp)
 	route.POST("/user/login", api.Authenticate)
+
+	user := route.Group("/news")
+	{
+		//custom middleware for authorized users
+		user.Use(middleware.Auth())
+	}
+
 	return route
 }
