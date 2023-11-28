@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"user/config"
 	"user/database"
+	"user/middleware"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -14,10 +16,10 @@ type Repository struct {
 	app *config.AppConfig
 }
 
-//A constructor function for the Repository struct, it initializes the Repository struct with the app variable, 
-//making the app accessible within the Repository instance.
-//This instance can then be used to initialize and run all your handlers
-//This pattern helps in keeping your code modular and makes it easier to manage dependencies
+// A constructor function for the Repository struct, it initializes the Repository struct with the app variable,
+// making the app accessible within the Repository instance.
+// This instance can then be used to initialize and run all your handlers
+// This pattern helps in keeping your code modular and makes it easier to manage dependencies
 func NewRepository(app *config.AppConfig) *Repository {
 	return &Repository{app: app}
 }
@@ -31,6 +33,7 @@ func (m *Repository) SignUp(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "User SignedUp successfully"})
 	c.Redirect(http.StatusSeeOther, "/user/signin")
+	log.Println("signedup successfully")
 }
 
 func (m *Repository) Authenticate(c *gin.Context) {
@@ -48,6 +51,16 @@ func (m *Repository) Authenticate(c *gin.Context) {
 	if err != nil || !valid {
 		log.Println("Invalid Password")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid credentials"})
+		return
+	}
+	token, err := middleware.GenerateToken(user.Email, true)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	log.Println("token generated")
+	_, err = json.Marshal(token)
+	if err != nil {
 		return
 	}
 	// Initialize the session and set the userID
