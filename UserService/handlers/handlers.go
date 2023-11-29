@@ -12,6 +12,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type UserPreference struct {
+	Country  string `json:"country"`
+	Category string `json:"category"`
+}
 type Repository struct {
 	app *config.AppConfig
 }
@@ -26,11 +30,17 @@ func NewRepository(app *config.AppConfig) *Repository {
 
 func (m *Repository) SignUp(c *gin.Context) {
 	var RequestPayload database.User
-	err := m.app.Models.Users.Insert(RequestPayload)
+	//Binds JSON request payload which is essential for correctly parsing and handling the incoming data.
+	if err := c.ShouldBindJSON(&RequestPayload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		return
+	}
+	user, err := m.app.Models.Users.Insert(RequestPayload)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to sign up"})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{"user": user})
 	c.JSON(http.StatusOK, gin.H{"message": "User SignedUp successfully"})
 	c.Redirect(http.StatusSeeOther, "/user/signin")
 	log.Println("signedup successfully")
@@ -40,6 +50,11 @@ func (m *Repository) Authenticate(c *gin.Context) {
 	var UserPayload struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
+	}
+	//Binds JSON request payload which is essential for correctly parsing and handling the incoming data.
+	if err := c.ShouldBindJSON(&UserPayload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		return
 	}
 	user, err := m.app.Models.Users.GetEmail(UserPayload.Email)
 	if err != nil {
@@ -63,10 +78,32 @@ func (m *Repository) Authenticate(c *gin.Context) {
 	if err != nil {
 		return
 	}
+	log.Println("Token generated:", token)
+	c.JSON(http.StatusOK, gin.H{"token": token})
 	// Initialize the session and set the userID
 	session := sessions.Default(c)
 	session.Set("userID", user.ID)
 	session.Save()
 	c.JSON(http.StatusOK, gin.H{"message": "User Authenticated successfully"})
 	log.Println("Authenticated")
+}
+
+func (m *Repository) SetPreference(c *gin.Context) {
+	// Extract user ID from the request context
+	userID, exists := c.Get("userID")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User ID not found in the request context"})
+		return
+	}
+	var preferences UserPreference
+	if err := c.ShouldBindJSON(&preferences); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON format"})
+		return
+	}
+	//store preference in a session
+	session := sessions.Default(c)
+	session.Set(userID.(string), preferences)
+	session.Save()
+	c.JSON(http.StatusOK, gin.H{"message": "Preferences set successfully"})
+	//send the preference to the content delivery service
 }
