@@ -3,10 +3,12 @@ package config
 import (
 	"user/database"
 
+	"github.com/alexedwards/scs/v2"
 	"gorm.io/gorm"
 )
 
 type AppConfig struct {
-	DB *gorm.DB
-	Models database.Models
+	Session *scs.SessionManager
+	DB      *gorm.DB
+	Models  database.Models
 }

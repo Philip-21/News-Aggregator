@@ -20,6 +20,7 @@ func main() {
 	app := config.AppConfig{
 		DB:     conn,
 		Models: database.New(conn),
+		
 	}
 	r := routes.Routes(handlers.NewRepository(&app))
 	err := r.Run(portNumber)

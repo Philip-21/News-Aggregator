@@ -37,7 +37,7 @@ func (m *Repository) SignUp(c *gin.Context) {
 	}
 	user, err := m.app.Models.Users.Insert(RequestPayload)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to sign up"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to sign up, User exists"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"user": user})
@@ -68,7 +68,7 @@ func (m *Repository) Authenticate(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid credentials"})
 		return
 	}
-	token, err := middleware.GenerateToken(user.Email, true)
+	token, err := middleware.GenerateToken(user.ID, user.Email, true)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -78,31 +78,25 @@ func (m *Repository) Authenticate(c *gin.Context) {
 	if err != nil {
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{"userID": user.ID})
 	log.Println("Token generated:", token)
 	c.JSON(http.StatusOK, gin.H{"token": token})
 	// Initialize the session and set the userID
 	session := sessions.Default(c)
 	session.Set("userID", user.ID)
 	session.Save()
+
 	c.JSON(http.StatusOK, gin.H{"message": "User Authenticated successfully"})
 	log.Println("Authenticated")
 }
 
 func (m *Repository) SetPreference(c *gin.Context) {
-	// Extract user ID from the request context
-	userID, exists := c.Get("userID")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User ID not found in the request context"})
-		return
-	}
+	session := sessions.Default(c)
 	var preferences UserPreference
 	if err := c.ShouldBindJSON(&preferences); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON format"})
 		return
 	}
-	//store preference in a session
-	session := sessions.Default(c)
-	session.Set(userID.(string), preferences)
 	session.Save()
 	c.JSON(http.StatusOK, gin.H{"message": "Preferences set successfully"})
 	//send the preference to the content delivery service

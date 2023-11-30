@@ -1,10 +1,12 @@
 package database
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -38,7 +40,12 @@ var counts int64
 
 // connects to the database properly
 func ConnectToDB() *gorm.DB {
+	err := godotenv.Load(".env")
+	if err != nil {
+		fmt.Println("Error in loading env file ", err)
+	}
 	dsn := os.Getenv("DSN")
+	fmt.Println("DSN:", dsn)
 	//an infinite for loop to connect to the database
 	for {
 		connection, err := OpenDB(dsn)

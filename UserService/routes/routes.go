@@ -1,12 +1,14 @@
 package routes
 
 import (
+	"log"
+	"os"
 	"user/handlers"
 	"user/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,9 +22,12 @@ func Routes(api *handlers.Repository) *gin.Engine {
 		ExposeHeaders:    []string{"Link"},
 		AllowCredentials: true,
 	}))
-	key := "Secret"
-	store := cookie.NewStore([]byte(key))
-	route.Use(sessions.Sessions("authsession", store))
+	redisConnectionString := os.Getenv("REDIS")
+	store, err := redis.NewStore(10, "tcp", redisConnectionString, "", []byte("secret"))
+	if err != nil {
+		log.Panic("redis not connected", err)
+	}
+	// Use sessions middleware with the Redis store
 	route.Use(sessions.Sessions("mysession", store))
 	route.GET("/")
 	route.POST("/user/signup", api.SignUp)
@@ -32,7 +37,7 @@ func Routes(api *handlers.Repository) *gin.Engine {
 	{
 		//custom middleware for authorized users
 		user.Use(middleware.Auth())
+		user.POST("/user/preference", api.SetPreference)
 	}
-
 	return route
 }

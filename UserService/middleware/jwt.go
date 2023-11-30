@@ -3,22 +3,25 @@ package middleware
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
 
 type jwtCustomClaims struct {
+	ID    int    `json:"id"`
 	Email string `json:"email"`
 	Admin bool   `json:"admin"`
 	jwt.StandardClaims
 }
 
-var SECRET_KEY = "SECRET"
+var SECRET_KEY = os.Getenv("SECRET")
 
-//Generate token when a user is authenticated
-func GenerateToken(email string, admin bool) (string, error) {
+// Generate JWT token with the claims and signing method.
+func GenerateToken(userID int, email string, admin bool) (string, error) {
 	claims := &jwtCustomClaims{
+		userID,
 		email,
 		admin,
 		jwt.StandardClaims{
@@ -36,7 +39,6 @@ func GenerateToken(email string, admin bool) (string, error) {
 	return t, nil
 
 }
-
 
 func ValidateToken(tokenString string) (*jwt.Token, error) {
 	return jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

@@ -8,11 +8,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (U *User) Insert(user User) error {
+func (U *User) Insert(user User) (*User, error) {
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 12)
 	if err != nil {
 		log.Println("Unable to hash password:", err)
-		return err
+		return nil, err
 	}
 	newUser := &User{
 		Email:     user.Email,
@@ -24,11 +24,10 @@ func (U *User) Insert(user User) error {
 	err = db.Create(newUser).Error
 	if err != nil {
 		log.Println("Unable to create user", err)
-		return err
+		return nil, err
 	}
 	log.Println("User created")
-	// Return the new user's ID
-	return nil
+	return newUser, nil
 }
 
 func (u *User) GetEmail(email string) (*User, error) {
