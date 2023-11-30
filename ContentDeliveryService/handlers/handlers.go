@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+var Repo *Repository
 
 type Repository struct{}
 
@@ -42,7 +43,7 @@ func (m *Repository) StartProcessingPreference() {
 		for {
 			select {
 			case pref := <-preferenceChannel:
-				//process the preference
+				//process the preference and send 
 				err := m.SendUserPreferenceToNewsService(c,pref)
 				if err != nil {
 					log.Println("Error sending preference to News Service:", err)
