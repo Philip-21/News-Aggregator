@@ -31,19 +31,39 @@ type NewsAPIResponse struct {
 	Articles []Article `json:"articles"`
 }
 
-//Triggers the 
+
+// func (m *Repository) GetNewsHandler(c *gin.Context) {
+// 	///retrive query parameters
+// 	country := c.Query("country")
+// 	category := c.Query("category")
+// 	news, err := FetchNewsApi(country, category)
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch news"})
+// 		return
+// 	}
+// 	// Return the aggregated news in the desired format
+// 	c.JSON(http.StatusOK, gin.H{"news": news})
+// }
+
+//Triggers Api fetch the news
 func (m *Repository) GetNewsHandler(c *gin.Context) {
-	///retrive query parameters
-	country := c.Query("country")
-	category := c.Query("category")
-	news, err := FetchNewsApi(country, category)
+	var requestData struct {
+		Country  string `json:"country"`
+		Category string `json:"category"`
+	}
+
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON format"})
+		return
+	}
+	news, err := FetchNewsApi(requestData.Country, requestData.Category)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch news"})
 		return
 	}
+
 	// Return the aggregated news in the desired format
 	c.JSON(http.StatusOK, gin.H{"news": news})
-
 }
 
 // fetch and aggregate news from external APIs

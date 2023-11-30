@@ -1,7 +1,10 @@
 package handlers
 
 import (
+	"bytes"
+	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"user/config"
@@ -78,7 +81,6 @@ func (m *Repository) Authenticate(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"userID": user.ID})
 	log.Println("Token generated:", token)
 	c.JSON(http.StatusOK, gin.H{"token": token})
 	// Initialize the session and set the userID
@@ -90,14 +92,63 @@ func (m *Repository) Authenticate(c *gin.Context) {
 	log.Println("Authenticated")
 }
 
+// set news prefernce based on country and category
 func (m *Repository) SetPreference(c *gin.Context) {
 	session := sessions.Default(c)
+	userID, exists := c.Get("userID")
+	if !exists {
+		log.Println("User ID not found in the request context")
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User ID not found in the request context"})
+		return
+	}
 	var preferences UserPreference
 	if err := c.ShouldBindJSON(&preferences); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON format"})
 		return
 	}
+	session.Set(userID, preferences)
 	session.Save()
 	c.JSON(http.StatusOK, gin.H{"message": "Preferences set successfully"})
 	//send the preference to the content delivery service
+	err := m.SendPreference(c, "SetNewsPreference", preferences)
+	if err != nil {
+		return
+	}
+}
+
+// send preference to the content delivery service
+func (m *Repository) SendPreference(c *gin.Context, name string, pref UserPreference) error {
+	jsonData, err := json.MarshalIndent(pref, "", "\t")
+	if err != nil {
+		log.Println("Unable to marshalIndent preference data", err)
+		return err
+	}
+	contentServiceUrl := "http://ContentDeliveryService/set"
+
+	request, err := http.NewRequest("POST", contentServiceUrl, bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Println("error in sending Preference request to Content service", err)
+		return err
+	}
+	//cancel the request if the client disconnects
+	ctx, cancel := context.WithCancel(c.Request.Context())
+	defer cancel()
+	request = request.WithContext(ctx)
+	// Use the Gin context's Request object instead of creating a new one
+	request = request.WithContext(ctx)
+	client := &http.Client{}
+	resp, err := client.Do(request)
+	if err != nil {
+		log.Println("client request not sent")
+		return err
+	}
+	defer resp.Body.Close()
+	// Check the HTTP response status
+	if resp.StatusCode != http.StatusOK {
+		log.Println("Unexpected HTTP status code from News Service:", resp.StatusCode)
+		return fmt.Errorf("unexpected HTTP status code: %d", resp.StatusCode)
+	}
+
+	log.Println("Preference sent to News Service:", pref)
+	return nil
 }

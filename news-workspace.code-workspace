@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": ".git"
+		},
+		{
+			"path": "ContentDeliveryService"
+		},
+		{
+			"path": "NewsAggregatorService"
+		},
+		{
+			"path": "UserService"
+		},
+		{
+			"path": "project"
+		}
+	]
+}
