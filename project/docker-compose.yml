@@ -1,6 +1,12 @@
 version: '3'
 
 services:
+    user-service:
+      build:
+        context: ./../
+
+
+    
     redis:
      image: 'redis:alpine'
      ports:

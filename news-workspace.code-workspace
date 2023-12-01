@@ -4,16 +4,16 @@
 			"path": ".git"
 		},
 		{
-			"path": "ContentDeliveryService"
+			"path": "contentdelivery-service"
 		},
 		{
-			"path": "NewsAggregatorService"
-		},
-		{
-			"path": "UserService"
+			"path": "newsaggregator-service"
 		},
 		{
 			"path": "project"
+		},
+		{
+			"path": "user-service"
 		}
 	]
 }
