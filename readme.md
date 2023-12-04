@@ -10,6 +10,9 @@ using Golang and the Gin framework.
 
 ## Getting started
   The Application uses the [NewsApi](https://newsapi.org/) as its external Api accessing different api endpoints based on the request paramters made by the user. 
+ #### Signing Up to get started 
+
+ #### Regsitering
   The search  
   ```
   {
