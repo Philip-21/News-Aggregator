@@ -49,7 +49,6 @@ func (m *Repository) GetUserPreference(c *gin.Context) {
 		return
 	}
 
-
 	// //send the prefernces to the channel asynchronously
 	// go func(pref UserPreference) {
 	// 	// Process the preference and send it to the news service
