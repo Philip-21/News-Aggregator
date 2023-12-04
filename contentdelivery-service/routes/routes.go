@@ -17,7 +17,8 @@ func Routes(api *handlers.Repository) *gin.Engine {
 		ExposeHeaders:    []string{"Link"},
 		AllowCredentials: true,
 	}))
-	route.POST("/set",api.GetUserPreference)
+	route.POST("/set", api.GetUserPreference)
+	//route.POST("/getnews", api.ReceiveNews)
 
 	return route
 

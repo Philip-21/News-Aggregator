@@ -17,6 +17,6 @@ func Routes(api *handlers.Repository) *gin.Engine {
 		ExposeHeaders:    []string{"Link"},
 		AllowCredentials: true,
 	}))
-	route.GET("/fetchnews", api.GetNewsHandler)
+	route.POST("/fetchnews", api.GetNewsHandler)
 	return route
 }

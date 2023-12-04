@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 
@@ -13,6 +15,10 @@ var Repo *Repository
 
 type Repository struct{}
 
+type UserPreference struct {
+	Country  string `json:"country"`
+	Category string `json:"category"`
+}
 type Source struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -31,7 +37,6 @@ type NewsAPIResponse struct {
 	Articles []Article `json:"articles"`
 }
 
-
 // func (m *Repository) GetNewsHandler(c *gin.Context) {
 // 	///retrive query parameters
 // 	country := c.Query("country")
@@ -45,29 +50,54 @@ type NewsAPIResponse struct {
 // 	c.JSON(http.StatusOK, gin.H{"news": news})
 // }
 
-//Triggers Api fetch the news
+// Triggers Api fetch the news
 func (m *Repository) GetNewsHandler(c *gin.Context) {
-	var requestData struct {
+	// Read and log the raw request body
+	rawBody, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		log.Println("Error reading request body:", err)
+	} else {
+		log.Printf("Raw Request Body: %s", rawBody)
+	}
+	// Rewind the request body so it can be read again
+	c.Request.Body = io.NopCloser(bytes.NewBuffer(rawBody))
+
+	var rawRequest struct {
 		Country  string `json:"country"`
 		Category string `json:"category"`
 	}
-
-	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON format"})
+	// Extract values from raw JSON string
+	if err := json.Unmarshal(rawBody, &rawRequest); err != nil {
+		log.Println("Error unmarshalling raw request body:", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Error unmarshalling raw request body"})
 		return
 	}
-	news, err := FetchNewsApi(requestData.Country, requestData.Category)
+
+	// Use extracted values directly or create a new UserPreference struct
+	// and assign the values to it.
+	requestData := UserPreference{
+		Country:  rawRequest.Country,
+		Category: rawRequest.Category,
+	}
+
+	log.Println("Preferences received from Content Service:", requestData)
+	log.Println("Country:", rawRequest.Country)
+	log.Println("Category:", rawRequest.Category)
+
+	// Use the extracted values in FetchNewsApi
+	news, err := m.FetchNewsApi(requestData.Country, requestData.Category)
 	if err != nil {
+		log.Println("failed to fetch news from News Api", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch news"})
 		return
 	}
-
-	// Return the aggregated news in the desired format
-	c.JSON(http.StatusOK, gin.H{"news": news})
+	c.JSON(http.StatusAccepted, news)
+	log.Println("news generated", news)
 }
 
 // fetch and aggregate news from external APIs
-func FetchNewsApi(country, category string) ([]Article, error) {
+func (m *Repository) FetchNewsApi(country, category string) ([]Article, error) {
+	//	var c *gin.Context
 	apiKey := "8f5aec8663734d3f9f96b2902070889c"
 
 	// Construct the API URL dynamically based on user input
@@ -79,10 +109,6 @@ func FetchNewsApi(country, category string) ([]Article, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		log.Println("wrong status code:", err)
-		return nil, err
-	}
 
 	// Decode the JSON response
 	var newsResponse NewsAPIResponse
@@ -106,5 +132,8 @@ func FetchNewsApi(country, category string) ([]Article, error) {
 		})
 	}
 	log.Println("Articles gotten successfully")
+
 	return aggregatedNews, nil
 }
+
+

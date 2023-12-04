@@ -13,4 +13,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("newsAggregator-service running on port %s", portNumber)
 }

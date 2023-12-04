@@ -1,16 +1,72 @@
 version: '3'
 
 services:
-    user-service:
-      build:
-        context: ./../
+  contentdelivery-service:
+    build:
+      context: ./../contentdelivery-service
+      dockerfile: ./../contentdelivery-service/content-service.dockerfile
+    restart: always
+    ports:
+      - "8000:80"
+    deploy:
+      mode: replicated
+      replicas: 1
 
+  newsaggregator-service:
+    build:
+      context: ./../newsaggregator-service
+      dockerfile: ./../newsaggregator-service/news.dockerfile
+    restart: always
+    ports:
+      - "8001:80"
+    deploy:  
+      mode: replicated
+      replicas: 1       
 
-    
-    redis:
-     image: 'redis:alpine'
-     ports:
+  user-service:
+    build:
+      context:  ./../user-service
+      dockerfile: ./../user-service/user.dockerfile 
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres  
+      - redis
+    deploy:  
+      mode: replicated
+      replicas: 1
+    #same env variables as the postgres and redis servcie 
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: philippians
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432  
+      REDIS: redis:6379
+
+  redis:
+    image: 'redis:alpine'
+    ports:
       - "6379:6379"
-     restart: always
-     volumes:
+    restart: always
+    volumes:
       - ./db-data/redis/:/data
+
+  postgres:
+    image: 'postgres:14.2-alpine'
+    ports:
+      - "5432:5432"
+    restart: "always"  
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: philippians
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+    #volumes set for data to persist
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgresql/data/
