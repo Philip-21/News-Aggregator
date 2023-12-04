@@ -27,4 +27,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("user-service running on port %s", portNumber)
 }

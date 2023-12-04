@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,7 @@ func Auth() gin.HandlerFunc {
 		//validate token and exract userID
 		userID, err := ValidateToken(authHeader)
 		if err != nil {
+			log.Println("invalid or expired token:", err)
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
 			c.Abort()
 			return

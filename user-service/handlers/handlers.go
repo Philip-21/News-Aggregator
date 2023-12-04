@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"user/config"
@@ -14,6 +13,20 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
+
+type Source struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type Article struct {
+	Source      Source `json:"source"`
+	Author      string `json:"author"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	PublishedAt string `json:"publishedAt"`
+	Content     string `json:"content"`
+}
 
 type UserPreference struct {
 	Country  string `json:"country"`
@@ -36,6 +49,7 @@ func (m *Repository) SignUp(c *gin.Context) {
 	//Binds JSON request payload which is essential for correctly parsing and handling the incoming data.
 	if err := c.ShouldBindJSON(&RequestPayload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		log.Println("invalid request payload")
 		return
 	}
 	user, err := m.app.Models.Users.Insert(RequestPayload)
@@ -57,6 +71,7 @@ func (m *Repository) Authenticate(c *gin.Context) {
 	//Binds JSON request payload which is essential for correctly parsing and handling the incoming data.
 	if err := c.ShouldBindJSON(&UserPayload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		log.Println("invalid request payload")
 		return
 	}
 	user, err := m.app.Models.Users.GetEmail(UserPayload.Email)
@@ -74,11 +89,13 @@ func (m *Repository) Authenticate(c *gin.Context) {
 	token, err := middleware.GenerateToken(user.ID, user.Email, true)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		log.Println("unable to generate token", err)
 		return
 	}
 	log.Println("token generated")
 	_, err = json.Marshal(token)
 	if err != nil {
+		log.Println("unable to unmarshall data", err)
 		return
 	}
 	log.Println("Token generated:", token)
@@ -114,22 +131,27 @@ func (m *Repository) SetPreference(c *gin.Context) {
 	if err != nil {
 		return
 	}
+
+	log.Println("preference set")
 }
 
 // send preference to the content delivery service
 func (m *Repository) SendPreference(c *gin.Context, name string, pref UserPreference) error {
-	jsonData, err := json.MarshalIndent(pref, "", "\t")
+	jsonData, err := json.Marshal(pref)
 	if err != nil {
-		log.Println("Unable to marshalIndent preference data", err)
+		log.Println("Unable to marshal preference data", err)
 		return err
 	}
-	contentServiceUrl := "http://ContentDeliveryService/set"
+
+	contentServiceUrl := "http://127.0.0.1:8000/set"
 
 	request, err := http.NewRequest("POST", contentServiceUrl, bytes.NewBuffer(jsonData))
 	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error in sending Preference request to Content service"})
 		log.Println("error in sending Preference request to Content service", err)
 		return err
 	}
+	request.Header.Set("Content-Type", "application/json")
 	//cancel the request if the client disconnects
 	ctx, cancel := context.WithCancel(c.Request.Context())
 	defer cancel()
@@ -139,16 +161,32 @@ func (m *Repository) SendPreference(c *gin.Context, name string, pref UserPrefer
 	client := &http.Client{}
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Println("client request not sent")
+		log.Println("client request not sent to content service", err)
 		return err
 	}
 	defer resp.Body.Close()
-	// Check the HTTP response status
-	if resp.StatusCode != http.StatusOK {
-		log.Println("Unexpected HTTP status code from News Service:", resp.StatusCode)
-		return fmt.Errorf("unexpected HTTP status code: %d", resp.StatusCode)
+	// // Check the HTTP response status
+	// if resp.StatusCode != http.StatusOK {
+	// 	log.Println("Unexpected HTTP status code from News Service:", resp.StatusCode)
+	// 	return fmt.Errorf("unexpected HTTP status code: %d", resp.StatusCode)
+	// }
+	log.Printf("Preference sent to Content Service: %s", jsonData)
+	// rawBody, err := io.ReadAll(resp.Body)
+	// if err != nil {
+	// 	log.Println("error in reading response body")
+	// } else {
+	// 	log.Printf("Raw Response Body:%s", rawBody)
+	// }
+
+	var newsArticle []Article
+
+	err = json.NewDecoder(resp.Body).Decode(&newsArticle)
+	if err != nil {
+		log.Println("Error in decoding", err)
 	}
 
-	log.Println("Preference sent to News Service:", pref)
+	//m.WriteJSON(c, http.StatusAccepted, gin.H{"Preferences set successfully": newsArticle})
+	c.JSON(http.StatusAccepted, gin.H{"Preferences set successfully": newsArticle})
 	return nil
 }
+
