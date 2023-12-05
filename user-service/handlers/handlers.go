@@ -143,7 +143,7 @@ func (m *Repository) SendPreference(c *gin.Context, name string, pref UserPrefer
 		return err
 	}
 
-	contentServiceUrl := "http://127.0.0.1:8000/set"
+	contentServiceUrl := "http://contentdelivery-service/set"
 
 	request, err := http.NewRequest("POST", contentServiceUrl, bytes.NewBuffer(jsonData))
 	if err != nil {
