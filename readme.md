@@ -16,7 +16,8 @@ using Golang and the Gin framework.
 ### Signing Up 
    To Signup , Email, Name, and password fields are requeired as inputs
   ```
-  {
+  
+ {
     "name":"your_name",
     "email":"your_email",
     "password":"your_password"
@@ -173,6 +174,6 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
   ]
 }
  ```
-The outputs above gives the list of articles, it has various fields such as author, title, description which gives various information about a particular news item
+The outputs above gives the list of articles, it has various fields such as author, title, description which gives various information about a particular news item.
 Please Note that you have to be authenticated to be able to fetch and access the api endpoints for you to receive news articles 
 
