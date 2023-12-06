@@ -48,7 +48,12 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
   ```
 #### Outputs 
  ```
-  "source": {
+ {
+  "status": "ok",
+  "totalResults": 68,
+  "articles": [
+    {
+      "source": {
         "id": null,
         "name": "Big Think"
       },
@@ -73,21 +78,10 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
       "publishedAt": "2023-12-05T05:53:33Z",
       "content": "When we gaze out into the cosmos beyond the borders of the Milky Way, we behold multitudes. Space is teeming with galaxies, speckled across the darkness like stars. If we stopped there, it would be e… [+4380 chars]"
     },
-    {
-      "source": {
-        "id": null,
-        "name": "SpaceNews"
-      },
-      "author": "Jeff Foust",
-      "title": "India returns Chandrayaan-3 propulsion module to Earth orbit - SpaceNews",
-      "description": "The spacecraft that transported the Chandrayaan-3 lander to the moon has returned to Earth orbit, testing technologies for a lunar sample return mission.",
-      "url": "https://spacenews.com/india-returns-chandrayaan-3-propulsion-module-to-earth-orbit/",
-      "urlToImage": "https://spacenews.com/wp-content/uploads/2023/12/cyyan3-propmodule.jpg",
-      "publishedAt": "2023-12-05T03:51:19Z",
-      "content": "WASHINGTON The spacecraft that transported the Chandrayaan-3 lander to the moon has returned to Earth orbit, a demonstration of technologies to support a future Indian lunar sample return mission.\r\nT… [+3943 chars]"
-    },
+   }
+  ]
+}
  ```
-
-
-Please Note that you have to be authenticated to be able to fetch and access the api endpoints
+The outputs above gives the list of articles, it has various fields such as author, title, description which gives various information about a particular news item
+Please Note that you have to be authenticated to be able to fetch and access the api endpoints for you to receive news articles 
 
