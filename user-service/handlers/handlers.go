@@ -44,6 +44,10 @@ func NewRepository(app *config.AppConfig) *Repository {
 	return &Repository{app: app}
 }
 
+func (m*Repository)Home(c*gin.Context){
+	c.JSON(http.StatusOK,gin.H{"message":"welcome to news headline service"})
+}
+
 func (m *Repository) SignUp(c *gin.Context) {
 	var RequestPayload database.User
 	//Binds JSON request payload which is essential for correctly parsing and handling the incoming data.

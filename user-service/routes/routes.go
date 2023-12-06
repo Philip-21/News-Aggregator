@@ -27,9 +27,10 @@ func Routes(api *handlers.Repository) *gin.Engine {
 	if err != nil {
 		log.Panic("redis not connected", err)
 	}
+
 	// Use sessions middleware with the Redis store
 	route.Use(sessions.Sessions("mysession", store))
-	route.GET("/")
+	route.GET("/", api.Home)
 	route.POST("/user/signup", api.SignUp)
 	route.POST("/user/login", api.Authenticate)
 
