@@ -10,10 +10,27 @@ using Golang and the Gin framework.
 
 ## Getting started
   The Application uses the [NewsApi](https://newsapi.org/) as its external Api accessing different api endpoints based on the request paramters made by the user. 
- #### Signing Up to get started 
+ ###
+ Postman will be used in testing and trying out this application
 
- #### Regsitering
-  The search  
+### Signing Up 
+   To Signup , Email, Name, and password fields are requeired as inputs
+  ```
+  {
+    "name":"your_name",
+    "email":"your_email",
+    "password":"your_password"
+ }
+```
+### Login 
+ Login with your credentials used for signing up to get started with things
+  ```
+ {
+    "email":"your_email",
+    "password":"your_password"
+ }
+```
+###  Search  
   ```
   {
     "country":"us",
