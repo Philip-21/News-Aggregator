@@ -8,6 +8,8 @@ COPY . /app
 
 WORKDIR /app 
 
+
+
 #Build go code 
 RUN CGO_ENABLE=0 go build -o userApp ./cmd
 

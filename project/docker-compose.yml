@@ -29,10 +29,7 @@ services:
       dockerfile: ./../user-service/user.dockerfile 
     restart: always
     ports:
-      - "8080:80"
-    depends_on:
-      - postgres  
-      - redis
+      - "80:80"
     deploy:  
       mode: replicated
       replicas: 1

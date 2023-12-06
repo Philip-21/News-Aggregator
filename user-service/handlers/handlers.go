@@ -131,7 +131,6 @@ func (m *Repository) SetPreference(c *gin.Context) {
 	if err != nil {
 		return
 	}
-
 	log.Println("preference set")
 }
 
