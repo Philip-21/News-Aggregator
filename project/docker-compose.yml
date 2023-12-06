@@ -35,12 +35,15 @@ services:
       replicas: 1
     #same env variables as the postgres and redis servcie 
     environment:
+      DSN: postgres://postgres_render_x5cr_user:nzCDkeBYVmu8v9XwNnoMZ5sY8Wuwqeh3@dpg-clnmme6qc21c73fd72b0-a.oregon-postgres.render.com/postgres_render_x5cr
+      SECRET_KEY: HMACSHA1
+      REDIS: rediss://red-clnmo16qc21c73fd85e0:1hYjZVXVY7HoIwFxsMuJouEJ4CstpkBn@oregon-redis.render.com:6379
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: philippians
       POSTGRES_DB: postgres
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432  
-      REDIS: redis:6379
+      REDIS1: redis:6379
 
   redis:
     image: 'redis:alpine'
