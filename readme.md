@@ -3,9 +3,9 @@
 using Golang and the Gin framework. 
 
 ## Components:
-- [News Aggregator Service]() Fetches news from various external APIs, aggregates the data, and standardizes the format.
-- [User Service]() Manages user registration, authentication, and user preferences for news categories or sources.
-- [Content Delivery Service]() Serves aggregated news to users based on their preferences, with functionalities like search and filtering. 
+- [News Aggregator Service](https://github.com/Philip-21/News-Aggregator/tree/master/newsaggregator-service) Fetches news from various external APIs, aggregates the data, and standardizes the format.
+- [User Service](https://github.com/Philip-21/News-Aggregator/tree/master/user-service) Manages user registration, authentication, and user preferences for news categories or sources.
+- [Content Delivery Service](https://github.com/Philip-21/News-Aggregator/tree/master/contentdelivery-service) Serves aggregated news to users based on their preferences, with functionalities like search and filtering. 
 
 
 ## Getting started
@@ -50,7 +50,7 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
  ```
  {
   "status": "ok",
-  "totalResults": 68,
+  "totalResults": 10,
   "articles": [
     {
       "source": {
