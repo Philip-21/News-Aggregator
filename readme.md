@@ -6,7 +6,7 @@ using Golang and the Gin framework.
 - [Golang](https://go.dev/) for the backend
 - [Postgres](https://www.postgresql.org/) for relational database management for authentication and user credentials
 - [Redis](https://redis.io/) for session management and caching
-- [Google Cloud Platform](https://cloud.google.com/gcp?utm_source=google&utm_medium=cpc&utm_campaign=emea-ng-all-en-bkws-all-all-trial-e-gcp-1011340&utm_content=text-ad-none-any-DEV_c-CRE_501794636569-ADGP_Hybrid+%7C+BKWS+-+EXA+%7C+Txt+~+GCP+~+General%23v3-KWID_43700061569959215-aud-1651755615252:kwd-87853815-userloc_1010294&utm_term=KW_gcp-NET_g-PLAC_&&gad_source=1&gclid=CjwKCAiA98WrBhAYEiwA2WvhOhuA-uqXeFIV_xs_57NtnkVtmIvMO8Y8zjIb98uLiuRx4u6gRSzsGBoCxj4QAvD_BwE&gclsrc=aw.ds&hl=en) for deployment using the GCP compute engine vm instance
+- [Google Cloud Platform](https://cloud.google.com/gcp?utm_source=google&utm_medium=cpc&utm_campaign=emea-ng-all-en-bkws-all-all-trial-e-gcp-1011340&utm_content=text-ad-none-any-DEV_c-CRE_501794636569-ADGP_Hybrid+%7C+BKWS+-+EXA+%7C+Txt+~+GCP+~+General%23v3-KWID_43700061569959215-aud-1651755615252:kwd-87853815-userloc_1010294&utm_term=KW_gcp-NET_g-PLAC_&&gad_source=1&gclid=CjwKCAiA98WrBhAYEiwA2WvhOhuA-uqXeFIV_xs_57NtnkVtmIvMO8Y8zjIb98uLiuRx4u6gRSzsGBoCxj4QAvD_BwE&gclsrc=aw.ds&hl=en) for deployment using the GCP compute engine 
   
 ## Components:
 - [News Aggregator Service](https://github.com/Philip-21/News-Aggregator/tree/master/newsaggregator-service) Fetches news from various external APIs, aggregates the data, and standardizes the format.
