@@ -53,20 +53,4 @@ services:
     volumes:
       - ./db-data/redis/:/data
 
-  postgres:
-    image: 'postgres:14.2-alpine'
-    ports:
-      - "5432:5432"
-    restart: "always"  
-    deploy:
-      mode: replicated
-      replicas: 1
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: philippians
-      POSTGRES_DB: postgres
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-    #volumes set for data to persist
-    volumes:
-      - ./db-data/postgres/:/var/lib/postgresql/data/
+
