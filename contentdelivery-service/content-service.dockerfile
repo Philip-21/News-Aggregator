@@ -21,6 +21,8 @@ FROM alpine:latest
 RUN mkdir /app 
 
 #copy files from the builfer stage to /app 
-COPY --from=builder /app/contentApp /app 
+COPY --from=builder /app/contentApp /app
+
+EXPOSE 8000
 
 CMD [ "/app/contentApp" ]

@@ -23,4 +23,6 @@ RUN mkdir /app
 #copy files from the builfer stage to /app 
 COPY --from=builder /app/newsApp /app 
 
+EXPOSE 8001
+
 CMD [ "/app/newsApp" ]

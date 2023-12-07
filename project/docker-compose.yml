@@ -7,7 +7,7 @@ services:
       dockerfile: ./../contentdelivery-service/content-service.dockerfile
     restart: always
     ports:
-      - "8000:80"
+      - "80:8000"
     deploy:
       mode: replicated
       replicas: 1
@@ -18,7 +18,7 @@ services:
       dockerfile: ./../newsaggregator-service/news.dockerfile
     restart: always
     ports:
-      - "8001:80"
+      - "80:8001"
     deploy:  
       mode: replicated
       replicas: 1       
@@ -38,12 +38,15 @@ services:
       DSN: postgres://postgres_render_x5cr_user:nzCDkeBYVmu8v9XwNnoMZ5sY8Wuwqeh3@dpg-clnmme6qc21c73fd72b0-a.oregon-postgres.render.com/postgres_render_x5cr
       SECRET_KEY: HMACSHA1
       REDIS: rediss://red-clnmo16qc21c73fd85e0:1hYjZVXVY7HoIwFxsMuJouEJ4CstpkBn@oregon-redis.render.com:6379
+      ##Development
+      DSN1: postgres://postgres:philippians@localhost:5432/postgres?sslmode=disable
+      REDIS1: localhost:6379
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: philippians
       POSTGRES_DB: postgres
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432  
-      REDIS1: redis:6379
+      REDIS2: redis:6379
 
   redis:
     image: 'redis:alpine'
