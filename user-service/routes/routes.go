@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"user/handlers"
@@ -23,6 +24,7 @@ func Routes(api *handlers.Repository) *gin.Engine {
 		AllowCredentials: true,
 	}))
 	redisConnectionString := os.Getenv("REDIS")
+	fmt.Println("REDIS:", redisConnectionString)
 	store, err := redis.NewStore(10, "tcp", redisConnectionString, "", []byte("secret"))
 	if err != nil {
 		log.Panic("redis not connected", err)
