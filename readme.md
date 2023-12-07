@@ -51,6 +51,7 @@ built with Golang and the Gin framework.
 ```
 ###  Getting news content.  
  News artices mainly in headline formats are fetched based on country and category  inputs. The country and category inputs are used as search parameters.  These are the list of paramters that can be used to fetch the news formats
+
  #### Country 
    The country parameters to get the headline news are in 2 letter codes 
     `ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za`
@@ -58,6 +59,9 @@ built with Golang and the Gin framework.
    The category parameters to get the headline news include
    `business, entertainment, generalhealth, science, sports, technology`
 You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-headlines) for more details on this 
+  #### Important
+ Please Note that you have to be authenticated i.e you must login to be able to fetch and access the api endpoints for you to receive news articles. 
+ When you login and get authenticated, ensure  to put the generated token  in the authorization section located in the headers field. [See here](https://blog.postman.com/what-are-http-headers/#:~:text=With%20Postman%2C%20you%20can%3A,you%20automatically%20complete%20your%20setup.)
 - URL http://34.171.120.144/news/user/preference
 - Method = POST
  #### Inputs
@@ -68,7 +72,6 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
  }
   ```
 The outputs below gives the list of articles, it has various fields such as author, title, description which gives various information about a particular news item.
-Please Note that you have to be authenticated i.e you must login to be able to fetch and access the api endpoints for you to receive news articles. 
 #### Outputs 
  ```
 {
