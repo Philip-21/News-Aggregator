@@ -14,7 +14,9 @@ using Golang and the Gin framework.
  Postman will be used in testing and trying out this application
 
 ### Signing Up 
-   To Signup , Email, Name, and password fields are requeired as inputs
+  - To Signup , Email, Name, and password fields are requeired as inputs
+  - URL http://34.171.120.144/user/signup
+  - Method = POST
   ```
   
  {
@@ -24,7 +26,9 @@ using Golang and the Gin framework.
  }
 ```
 ### Login 
- Login with your credentials used in signing up to get started with things. 
+ - Login with your credentials used in signing up to get started with things.
+ - URL http://34.171.120.144/user/login
+ - Method = POST
   ```
  {
     "email":"your_email",
@@ -40,6 +44,8 @@ using Golang and the Gin framework.
    The category parameters to get the headline news include
    `business, entertainment, generalhealth, science, sports, technology`
 You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-headlines) for more details on this 
+- URL http://34.171.120.144/news/user/preference
+- Method = POST
  #### Inputs
   ```
   {
