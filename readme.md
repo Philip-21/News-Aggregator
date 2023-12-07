@@ -50,7 +50,7 @@ using Golang and the Gin framework.
  }
 ```
 ###  Getting news content.  
- News artices mainly in headline formats are fetched based on inputs in the country and category field. These are the list of paramters that can be used to fetch the news formats
+ News artices mainly in headline formats are fetched based on country and category  inputs. The country and category inputs are used as search parameters.  These are the list of paramters that can be used to fetch the news formats
  #### Country 
    The country parameters to get the headline news are in 2 letter codes 
     `ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za`
