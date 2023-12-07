@@ -64,7 +64,7 @@ func (m *Repository) GetUserPreference(c *gin.Context) {
 
 // send the preference to the news service
 func (m *Repository) SendUserPreferenceToNewsService(c *gin.Context, pref UserPreference) error {
-	newServiceUrl := "http://newsaggregator-servcie/fetchnews"
+	newServiceUrl := "http://newsaggregator-servcie:8001/fetchnews"
 
 	jsonData, err := json.Marshal(pref)
 	if err != nil {
