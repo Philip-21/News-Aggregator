@@ -1,7 +1,13 @@
 # News Aggregator
- A microservices-based news aggregator application that fetches headline news from different Api endpoints
+ A Backend microservices-based news aggregator application that fetches headline news from different Api endpoints
 using Golang and the Gin framework. 
 
+## Tech Stacks Used
+- Golang
+- Postgres
+- Redis
+- Google Cloud Platform
+  
 ## Components:
 - [News Aggregator Service](https://github.com/Philip-21/News-Aggregator/tree/master/newsaggregator-service) Fetches news from various external APIs, aggregates the data, and standardizes the format.
 - [User Service](https://github.com/Philip-21/News-Aggregator/tree/master/user-service) Manages user registration, authentication, and user preferences for news categories or sources.
@@ -11,8 +17,16 @@ using Golang and the Gin framework.
 ## Getting started
   The Application uses the [NewsApi](https://newsapi.org/) as its external Api accessing different api endpoints based on the request paramters made by the user. 
  ###
- Postman will be used in testing and trying out this application
+ [Postman](https://www.postman.com/) will be used in testing and trying out this application
 
+### Viewing the home page to ensure you are connected
+  - URL http://34.171.120.144/
+  - Method = GET
+   ```
+   {
+    "message": "welcome to news headline service"
+   }
+   ```
 ### Signing Up 
   - To Signup , Email, Name, and password fields are requeired as inputs
   - URL http://34.171.120.144/user/signup
@@ -130,5 +144,7 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
 }
  ```
 The outputs above gives the list of articles, it has various fields such as author, title, description which gives various information about a particular news item.
-Please Note that you have to be authenticated to be able to fetch and access the api endpoints for you to receive news articles 
+Please Note that you have to be authenticated i.e you must signup to be able to fetch and access the api endpoints for you to receive news articles. 
+
+
 
