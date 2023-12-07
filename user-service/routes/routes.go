@@ -22,7 +22,7 @@ func Routes(api *handlers.Repository) *gin.Engine {
 		ExposeHeaders:    []string{"Link"},
 		AllowCredentials: true,
 	}))
-	redisConnectionString := os.Getenv("REDIS1")
+	redisConnectionString := os.Getenv("REDIS")
 	store, err := redis.NewStore(10, "tcp", redisConnectionString, "", []byte("secret"))
 	if err != nil {
 		log.Panic("redis not connected", err)

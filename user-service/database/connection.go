@@ -5,8 +5,6 @@ import (
 	"log"
 	"os"
 	"time"
-
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -47,10 +45,6 @@ func ConnectToDB() *gorm.DB {
 	// 	os.Getenv("POSTGRES_HOST"),
 	// 	os.Getenv("POSTGRES_PORT"),
 	// )
-	err := godotenv.Load(".env")
-	if err != nil {
-		fmt.Println("Error in loading env file ", err)
-	}
 	dsn := os.Getenv("DSN")
 	fmt.Println("DSN:", dsn)
 	//an infinite for loop to connect to the database
