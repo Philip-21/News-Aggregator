@@ -67,6 +67,8 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
     "category":"science"
  }
   ```
+The outputs below gives the list of articles, it has various fields such as author, title, description which gives various information about a particular news item.
+Please Note that you have to be authenticated i.e you must login to be able to fetch and access the api endpoints for you to receive news articles. 
 #### Outputs 
  ```
 {
@@ -175,8 +177,7 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
     ]
 }
  ```
-The outputs above gives the list of articles, it has various fields such as author, title, description which gives various information about a particular news item.
-Please Note that you have to be authenticated i.e you must signup to be able to fetch and access the api endpoints for you to receive news articles. 
+
 
 
 
