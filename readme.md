@@ -1,6 +1,6 @@
 # News Aggregator
  A Backend microservices-based news aggregator application that fetches headline news from different Api endpoints
-using Golang and the Gin framework. 
+built with Golang and the Gin framework. 
 
 ## Tech Stacks Used
 - [Golang](https://go.dev/) for the backend
