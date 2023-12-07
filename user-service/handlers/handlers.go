@@ -44,8 +44,16 @@ func NewRepository(app *config.AppConfig) *Repository {
 	return &Repository{app: app}
 }
 
-func (m*Repository)Home(c*gin.Context){
-	c.JSON(http.StatusOK,gin.H{"message":"welcome to news headline service"})
+func (m *Repository) Home(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"message": "welcome to news headline service"})
+}
+
+func (m *Repository) GetSignUp(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"message": "create a post request to signup see `https://github.com/Philip-21/News-Aggregator/blob/master/readme.md`"})
+}
+
+func (m*Repository)GetSignIn(c*gin.Context){
+	c.JSON(http.StatusOK, gin.H{"message":"create a post request to login see `https://github.com/Philip-21/News-Aggregator/blob/master/readme.md`"})
 }
 
 func (m *Repository) SignUp(c *gin.Context) {
@@ -192,4 +200,3 @@ func (m *Repository) SendPreference(c *gin.Context, name string, pref UserPrefer
 	c.JSON(http.StatusAccepted, gin.H{"Preferences set successfully": newsArticle})
 	return nil
 }
-

@@ -31,6 +31,8 @@ func Routes(api *handlers.Repository) *gin.Engine {
 	// Use sessions middleware with the Redis store
 	route.Use(sessions.Sessions("mysession", store))
 	route.GET("/", api.Home)
+	route.GET("/user/signup", api.GetSignUp)
+	route.GET("/user/login", api.GetSignIn)
 	route.POST("/user/signup", api.SignUp)
 	route.POST("/user/login", api.Authenticate)
 
