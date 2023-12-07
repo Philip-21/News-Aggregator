@@ -3,10 +3,10 @@
 using Golang and the Gin framework. 
 
 ## Tech Stacks Used
-- Golang
-- Postgres
-- Redis
-- Google Cloud Platform
+- [Golang](https://go.dev/) for the backend
+- [Postgres](https://www.postgresql.org/) for relational database management for authentication and user credentials
+- [Redis](https://redis.io/) for session management and caching
+- [Google Cloud Platform](https://cloud.google.com/gcp?utm_source=google&utm_medium=cpc&utm_campaign=emea-ng-all-en-bkws-all-all-trial-e-gcp-1011340&utm_content=text-ad-none-any-DEV_c-CRE_501794636569-ADGP_Hybrid+%7C+BKWS+-+EXA+%7C+Txt+~+GCP+~+General%23v3-KWID_43700061569959215-aud-1651755615252:kwd-87853815-userloc_1010294&utm_term=KW_gcp-NET_g-PLAC_&&gad_source=1&gclid=CjwKCAiA98WrBhAYEiwA2WvhOhuA-uqXeFIV_xs_57NtnkVtmIvMO8Y8zjIb98uLiuRx4u6gRSzsGBoCxj4QAvD_BwE&gclsrc=aw.ds&hl=en) for deployment using the GCP compute engine vm instance
   
 ## Components:
 - [News Aggregator Service](https://github.com/Philip-21/News-Aggregator/tree/master/newsaggregator-service) Fetches news from various external APIs, aggregates the data, and standardizes the format.
@@ -69,78 +69,110 @@ You  can look through the [api docs](https://newsapi.org/docs/endpoints/top-head
   ```
 #### Outputs 
  ```
- {
-  "status": "ok",
-  "totalResults": 10,
-  "articles": [
-   {
-       "source": {
-         "id": null,
-         "name": "Big Think"
-       },
-       "author": "Ethan Siegel",
-       "title": "\"Singularities don't exist,\" claims black hole pioneer Roy Kerr - Big Think",
-       "description": "The brilliant mind who discovered the spacetime solution for rotating black holes claims singularities don't physically exist. Is he right?",
-       "url": "https://bigthink.com/starts-with-a-bang/singularities-dont-exist-roy-kerr/",
-       "urlToImage": "https://bigthink.com/wp-content/uploads/2023/12/hikerr-negview.png?w=1024&h=576&crop=1",
-       "publishedAt": "2023-12-05T07:00:00Z",
-       "content": null
-     },
-     {
-       "source": {
-         "id": null,
-         "name": "ScienceAlert"
-       },
-       "author": "Michelle Starr",
-       "title": "We Might Be Sitting in a Massive 'Supervoid' in Space, And That Could Explain The Hubble Tension - ScienceAlert",
-       "description": "When we gaze out into the cosmos beyond the borders of the Milky Way, we behold multitudes.",
-       "url": "https://www.sciencealert.com/we-might-be-sitting-in-a-massive-supervoid-in-space-and-that-could-explain-the-hubble-tension",
-       "urlToImage": "https://www.sciencealert.com/images/2023/12/Kroupa-Hubble-Spannung.jpg",
-       "publishedAt": "2023-12-05T05:53:33Z",
-       "content": "When we gaze out into the cosmos beyond the borders of the Milky Way, we behold multitudes. Space is teeming with galaxies, speckled across the darkness like stars. If we stopped there, it would be e… [+4380 chars]"
-     },
-     {
-       "source": {
-         "id": null,
-         "name": "SpaceNews"
-       },
-       "author": "Jeff Foust",
-       "title": "India returns Chandrayaan-3 propulsion module to Earth orbit - SpaceNews",
-       "description": "The spacecraft that transported the Chandrayaan-3 lander to the moon has returned to Earth orbit, testing technologies for a lunar sample return mission.",
-       "url": "https://spacenews.com/india-returns-chandrayaan-3-propulsion-module-to-earth-orbit/",
-       "urlToImage": "https://spacenews.com/wp-content/uploads/2023/12/cyyan3-propmodule.jpg",
-       "publishedAt": "2023-12-05T03:51:19Z",
-       "content": "WASHINGTON The spacecraft that transported the Chandrayaan-3 lander to the moon has returned to Earth orbit, a demonstration of technologies to support a future Indian lunar sample return mission.\r\nT… [+3943 chars]"
-     },
-     {
-       "source": {
-         "id": null,
-         "name": "Space.com"
-       },
-       "author": "Sharmila Kuthunur",
-       "title": "Pluto's 'almost twin' dwarf planet Eris is surprisingly squishy - Space.com",
-       "description": "New models show Eris is behaving less like a solid, rocky world and more like \"soft cheese.\"",
-       "url": "https://www.space.com/pluto-twin-dwarf-planet-eris-squishy",
-       "urlToImage": "https://cdn.mos.cms.futurecdn.net/5wA9HMEuB49dhKPdfv3Vd9-1200-80.jpg",
-       "publishedAt": "2023-12-05T01:00:01Z",
-       "content": "Space is part of Future US Inc, an international media group and leading digital publisher. Visit our corporate site.\r\n©\r\nFuture US, Inc. Full 7th Floor, 130 West 42nd Street,\r\nNew York,\r\nNY 10036."
-     },
-     {
-       "source": {
-         "id": null,
-         "name": "PBS"
-       },
-       "author": null,
-       "title": "Solar system with 6 planets orbiting in-sync discovered - PBS NewsHour",
-       "description": "Astronomers have discovered a rare solar system with six planets moving in sync with one another. Estimated to be billions of years old, the formation 100 light-years away may help unravel some mysteries of our solar system. Miles O’Brien reports on this perf…",
-       "url": "https://www.pbs.org/newshour/show/solar-system-with-6-planets-orbiting-in-sync-discovered-in-milky-way",
-       "urlToImage": "https://d3i6fh83elv35t.cloudfront.net/static/2023/12/space-1024x683.jpg",
-       "publishedAt": "2023-12-04T23:15:29Z",
-       "content": "Miles OBrien:\r\nWell, there's two instruments involved.\r\nThere was a NASA instrument called the Transiting Exoplanet Survey Satellite, or TESS. TESS has been in orbit for about five years, and it has … [+543 chars]"
-     },
-    
-   }
-  ]
+{
+    "message": "Preferences set successfully"
+}{
+    "Preferences set successfully": [
+        {
+            "source": {
+                "id": "google-news",
+                "name": "Google News"
+            },
+            "author": "Ars Technica",
+            "title": "Daily Telescope: A super-hot jet 1000 light-years from Earth - Ars Technica",
+            "description": "",
+            "publishedAt": "2023-12-06T13:00:31Z",
+            "content": ""
+        },
+        {
+            "source": {
+                "id": "",
+                "name": "ScienceAlert"
+            },
+            "author": "Universe Today",
+            "title": "China's Lander Detects Giant Polygonal Structures Buried Beneath Mars - ScienceAlert",
+            "description": "China's Zhurong rover was equipped with a ground-penetrating radar system, allowing it to peer beneath Mars's surface.",
+            "publishedAt": "2023-12-06T12:13:50Z",
+            "content": "China's Zhurong rover was equipped with a ground-penetrating radar system, allowing it to peer beneath Mars's surface.\r\nResearchers have announced new results from the scans of Zhurong's landing site… [+4595 chars]"
+        },
+        {
+            "source": {
+                "id": "",
+                "name": "Theregister.com"
+            },
+            "author": "Lindsay Clark",
+            "title": "'Wobbly spacetime' is latest stab at unifying physics - The Register",
+            "description": "Grudge match between quantum mechanics and general relativity attracts new effort to find harmony",
+            "publishedAt": "2023-12-06T11:45:00Z",
+            "content": "Since the early 20th century, physicists have struggled to marry theories governing the very big with those for the very small.\r\nDespite the staggering achievements in modern science, the conflict be… [+3009 chars]"
+        },
+        {
+            "source": {
+                "id": "",
+                "name": "SpaceNews"
+            },
+            "author": "Jeff Foust",
+            "title": "OSIRIS-REx parachute deployment affected by wiring error - SpaceNews",
+            "description": "The drogue parachute on the OSIRIS-REx sample return capsule failed to deploy properly because of a design error that did not prevent a safe landing.",
+            "publishedAt": "2023-12-06T09:04:41Z",
+            "content": "WASHINGTON The drogue parachute on the OSIRIS-REx sample return capsule failed to deploy properly because of a design error, a flaw that did not prevent a safe landing of the capsule.\r\nIn a Dec. 5 st… [+3795 chars]"
+        },
+        {
+            "source": {
+                "id": "",
+                "name": "IFLScience"
+            },
+            "author": "Dr. Alfredo Carpineti",
+            "title": "Naturally Occurring Magnetic Monopoles Measured For The First Time - IFLScience",
+            "description": "Quasiparticles have been found to only have a single magnetic pole, or two, or four.",
+            "publishedAt": "2023-12-06T07:21:18Z",
+            "content": "Regular magnets have two poles, a north and a south, and their behavior is defined in classical terms by the Maxwell equations. From contemporaries of Maxwell through to modern researchers, there hav… [+2456 chars]"
+        },
+        {
+            "source": {
+                "id": "",
+                "name": "Space.com"
+            },
+            "author": "Robert Lea",
+            "title": "Gravitational waves rippling from black hole merger could help test general relativity - Space.com",
+            "description": "\"I never thought I would ever see such a measurement in my lifetime.\"",
+            "publishedAt": "2023-12-06T01:00:18Z",
+            "content": "Space is part of Future US Inc, an international media group and leading digital publisher. Visit our corporate site.\r\n©\r\nFuture US, Inc. Full 7th Floor, 130 West 42nd Street,\r\nNew York,\r\nNY 10036."
+        },
+        {
+            "source": {
+                "id": "",
+                "name": "Space.com"
+            },
+            "author": "Monisha Ravisetti",
+            "title": "NASA's Psyche spacecraft finds its 'first light' while zooming to a metal asteroid (image) - Space.com",
+            "description": "The spacecraft's twin cameras have produced a 68-image stellar mosaic.",
+            "publishedAt": "2023-12-05T22:38:50Z",
+            "content": "Space is part of Future US Inc, an international media group and leading digital publisher. Visit our corporate site.\r\n©\r\nFuture US, Inc. Full 7th Floor, 130 West 42nd Street,\r\nNew York,\r\nNY 10036."
+        },
+        {
+            "source": {
+                "id": "",
+                "name": "PetaPixel"
+            },
+            "author": "Jeremy Gray",
+            "title": "How a Photographer Captured Aurora, STEVE, and the Milky Way in One Shot - PetaPixel",
+            "description": "How a photographer captured an extremely rare night sky image.",
+            "publishedAt": "2023-12-05T22:23:36Z",
+            "content": "© NorthernPixl\r\nBritish photographer Stephen Pemberton, who goes by NorthernPixl, has demonstrated how determination, preparation, and good luck can result in beautiful night sky photographs. When ph… [+6942 chars]"
+        },
+        {
+            "source": {
+                "id": "",
+                "name": "Phys.Org"
+            },
+            "author": "Science X",
+            "title": "'Friendly' hyenas are more likely to form mobs, research shows - Phys.org",
+            "description": "After more than 35 years of surveillance, Michigan State University researchers are exposing some of the secret workings of mobs. To be clear, these mobs are made up of spotted hyenas.",
+            "publishedAt": "2023-12-05T20:06:04Z",
+            "content": "After more than 35 years of surveillance, Michigan State University researchers are exposing some of the secret workings of mobs. To be clear, these mobs are made up of spotted hyenas.\r\nPublishing in… [+6698 chars]"
+        }
+    ]
 }
  ```
 The outputs above gives the list of articles, it has various fields such as author, title, description which gives various information about a particular news item.
